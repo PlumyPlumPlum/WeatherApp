@@ -1,0 +1,63 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Rays -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M48,8 L48,16" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M48,80 L48,88" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M8,48 L16,48" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M80,48 L88,48" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M20,20 L26,26" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M70,70 L76,76" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M70,26 L76,20" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M20,76 L26,70" />
+
+    <!-- Sun -->
+    <path
+        android:fillColor="#F7BF53"
+        android:strokeColor="#E8A63D"
+        android:strokeWidth="2"
+        android:pathData="M48,48 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0" />
+</vector>

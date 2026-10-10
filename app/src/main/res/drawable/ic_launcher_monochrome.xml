@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Coastal Weather sun rays -->
+    <path android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.4"
+        android:strokeLineCap="round"
+        android:pathData="M64,23 L64,27 M78,28 L75,31 M82,42 L78,42 M78,56 L75,53 M50,28 L53,31 M46,42 L50,42" />
+    <!-- Sun -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M64,32 A10,10 0,1 1,64 52 A10,10 0,1 1,64 32 Z" />
+    <!-- Cloud -->
+    <path android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineJoin="round"
+        android:strokeWidth="0"
+        android:pathData="M39,76 C31,76 27,70 27,64 C27,57 33,52 40,52 C43,44 49,40 56,40 C64,40 71,45 73,52 C81,52 85,57 85,64 C85,71 79,76 72,76 Z" />
+</vector>

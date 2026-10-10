@@ -1,0 +1,25 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Cloud -->
+    <path
+        android:fillColor="#EAF4FF"
+        android:strokeColor="#347CB8"
+        android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M24,60 C15,60 9,54 9,46 C9,38 15,32 23,31 C27,22 36,16 46,16 C56,16 64,22 68,30 C76,30 83,36 83,45 C83,53 76,60 67,60 Z" />
+
+    <!-- Rain drops -->
+    <path
+        android:fillColor="#3C8DDE"
+        android:pathData="M26,84 C23,80 21,76 21,73 C21,69 23,66 26,62 C29,66 31,69 31,73 C31,76 29,80 26,84 Z" />
+    <path
+        android:fillColor="#3C8DDE"
+        android:pathData="M46,88 C43,84 41,80 41,77 C41,73 43,70 46,66 C49,70 51,73 51,77 C51,80 49,84 46,88 Z" />
+    <path
+        android:fillColor="#3C8DDE"
+        android:pathData="M66,84 C63,80 61,76 61,73 C61,69 63,66 66,62 C69,66 71,69 71,73 C71,76 69,80 66,84 Z" />
+</vector>
