@@ -29,11 +29,16 @@ import com.example.weatherapp.ui.components.WeatherIcon
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import com.example.weatherapp.ui.TemperatureUnit
 import com.example.weatherapp.ui.formatTemperature
-
-
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import com.example.weatherapp.data.HourlyForecast
+import java.util.Locale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 @Composable
 fun CurrentWeatherScreen(
     weather: CurrentWeather,
+    hourlyForecast: List<HourlyForecast> = emptyList(),
     unit: TemperatureUnit = TemperatureUnit.CELSIUS,
     modifier: Modifier = Modifier
 ) {
@@ -58,7 +63,8 @@ fun CurrentWeatherScreen(
         // Main weather illustration
         WeatherIcon(
             condition = weather.condition,
-            modifier = Modifier.size(112.dp)
+            modifier = Modifier.size(112.dp),
+            code = weather.conditionCode
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -114,7 +120,7 @@ fun CurrentWeatherScreen(
         ) {
             WeatherDetailCard(
                 label = "Wind",
-                value = "${weather.windKph} km/h",
+                value = "${weather.windDirection} ${weather.windKph} km/h".trim(),
                 modifier = Modifier.weight(1f)
             )
 
@@ -123,6 +129,66 @@ fun CurrentWeatherScreen(
                 value = "${weather.humidityPercent}%",
                 modifier = Modifier.weight(1f)
             )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            WeatherDetailCard(
+                label = "${weather.precipitationChanceType} chance (this hour)",
+                value = weather.precipitationChancePercent?.let {
+                    "$it%"
+                } ?: "Unavailable",
+                modifier = Modifier.weight(1f)
+            )
+
+            WeatherDetailCard(
+                label = "Current precipitation",
+                value = String.format(
+                    Locale.CANADA,
+                    "%.1f mm",
+                    weather.precipitationMm
+                ),
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+
+        Spacer(modifier = Modifier.height(28.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Next 24 Hours",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Text(
+                text = "Swipe →",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(hourlyForecast) { hour ->
+                HourlyWeatherCard(
+                    hour = hour,
+                    unit = unit
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -171,3 +237,85 @@ fun CurrentWeatherPreview() {
         )
     }
 }
+
+@Composable
+private fun HourlyWeatherCard(
+    hour: HourlyForecast,
+    unit: TemperatureUnit
+) {
+    Card(
+        modifier = Modifier.size(
+            width = 148.dp,
+            height = 240.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Forecast hour
+            Text(
+                text = hour.timeLabel,
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            // Weather condition illustration
+            WeatherIcon(
+                condition = hour.condition,
+                code = hour.conditionCode,
+                modifier = Modifier.size(48.dp)
+            )
+
+            // Forecast temperature
+            Text(
+                text = formatTemperature(
+                    hour.temperatureC,
+                    unit
+                ),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+
+            // Actual forecasted weather condition
+            Text(
+                text = hour.condition,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                minLines = 2,
+                maxLines = 2
+            )
+
+            // Probability, separate from weather condition
+            Text(
+                text = "Rain chance: ${hour.rainChancePercent}%",
+                style = MaterialTheme.typography.labelSmall
+            )
+
+            Text(
+                text = "Snow chance: ${hour.snowChancePercent}%",
+                style = MaterialTheme.typography.labelSmall
+            )
+
+            // Forecast precipitation amount
+            Text(
+                text = String.format(
+                    Locale.CANADA,
+                    "%.1f mm",
+                    hour.precipitationMm
+                ),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}
+
+

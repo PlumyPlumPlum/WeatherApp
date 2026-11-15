@@ -1,7 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
+}
+
+val weatherApiKey =
+    localProperties.getProperty("WEATHER_API_KEY", "")
 
 android {
     namespace = "com.example.weatherapp"
@@ -17,6 +30,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "WEATHER_API_KEY",
+            "\"$weatherApiKey\""
+        )
     }
 
     buildTypes {
@@ -32,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -54,4 +74,21 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.core.splashscreen)
+    // Communicate with a REST API
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // Convert JSON into Kotlin objects
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    // Obtain the phone's location
+    implementation("com.google.android.gms:play-services-location:21.4.0")
+    // ViewModel integration with Jetpack Compose
+    implementation(
+        "androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0"
+    )
+    // Coroutine support for ViewModel
+    implementation(
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0"
+    )
+    implementation("com.mapbox.maps:android:11.34.2")
+    // Compose UI extension for map rendering and markers.
+    implementation("com.mapbox.extension:maps-compose:11.34.2")
 }

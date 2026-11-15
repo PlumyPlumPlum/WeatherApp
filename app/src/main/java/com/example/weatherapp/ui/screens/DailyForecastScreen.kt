@@ -26,10 +26,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.text.font.FontWeight
 import com.example.weatherapp.ui.TemperatureUnit
 import com.example.weatherapp.ui.formatTemperature
+import java.util.Locale
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.HorizontalDivider
 
 @Composable
 fun DailyForecastScreen(
     forecast: List<ForecastDay>,
+    location: String = "Halifax, Nova Scotia",
     unit: TemperatureUnit = TemperatureUnit.CELSIUS,
     modifier: Modifier = Modifier
 ) {
@@ -39,12 +44,12 @@ fun DailyForecastScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "Halifax, Nova Scotia",
+            text = location,
             style = MaterialTheme.typography.titleLarge
         )
 
         Text(
-            text = "7-Day Forecast",
+            text = "3-Day Forecast",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(
                 top = 4.dp,
@@ -83,7 +88,7 @@ fun ForecastCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
 
             Row(
@@ -93,54 +98,122 @@ fun ForecastCard(
             ) {
 
                 // Day and condition
+
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
+                    // Primary heading - day of the week
                     Text(
-                        text = forecastDay.dayName,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                        text = forecastDay.dayName.uppercase(Locale.CANADA),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
+                    // Secondary heading - date
+                    Text(
+                        text = forecastDay.dateLabel,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    // Weather condition
                     Text(
                         text = forecastDay.condition,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
+
 
                 // Weather illustration
                 WeatherIcon(
                     condition = forecastDay.condition,
-                    modifier = Modifier.size(44.dp)
+                    modifier = Modifier.size(44.dp),
+                    code = forecastDay.conditionCode
                 )
 
                 // High and low temperatures
+
+// High and low temperatures
                 Column(
                     horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     Text(
-                        text = "High ${formatTemperature(forecastDay.highC, unit)}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                        text = "HIGH",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Text(
+                        text = formatTemperature(forecastDay.highC, unit),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "Low ${formatTemperature(forecastDay.lowC, unit)}",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+
             }
 
             // Additional forecast details
-            Text(
-                text = "Wind ${forecastDay.windKph} km/h  ·  Humidity ${forecastDay.humidityPercent}%",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+
+// Subtle separation between forecast and measurements
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(
+                    alpha = 0.5f
+                )
             )
+
+// First measurement row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ForecastMetric(
+                    label = "WIND",
+                    value = "${forecastDay.windKph} km/h",
+                    modifier = Modifier.weight(1f)
+                )
+
+                ForecastMetric(
+                    label = "HUMIDITY",
+                    value = "${forecastDay.humidityPercent}%",
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+// Second measurement row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ForecastMetric(
+                    label = "${forecastDay.precipitationChanceType.uppercase(Locale.CANADA)} CHANCE",
+                    value = "${forecastDay.precipitationChancePercent}%",
+                    modifier = Modifier.weight(1f)
+                )
+
+                ForecastMetric(
+                    label = "PRECIPITATION",
+                    value = String.format(
+                        Locale.CANADA,
+                        "%.1f mm",
+                        forecastDay.precipitationMm
+                    ),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
         }
     }
 }
@@ -150,7 +223,33 @@ fun ForecastCard(
 fun DailyForecastPreview() {
     WeatherAppTheme {
         DailyForecastScreen(
-            forecast = SampleWeatherData.dailyForecast
+            forecast = SampleWeatherData.dailyForecast.take(3)
         )
     }
 }
+
+@Composable
+private fun ForecastMetric(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+

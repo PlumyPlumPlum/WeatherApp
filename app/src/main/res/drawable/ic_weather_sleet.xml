@@ -1,0 +1,28 @@
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+
+    <!-- Cloud -->
+    <path
+        android:fillColor="#EAF4FF"
+        android:strokeColor="#347CB8"
+        android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M24,60 C15,60 9,54 9,46 C9,38 15,32 23,31 C27,22 36,16 46,16 C56,16 64,22 68,30 C76,30 83,36 83,45 C83,53 76,60 67,60 Z"/>
+
+    <!-- Snowflake -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#74BEF5"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M32,66 L32,84 M23,75 L41,75 M25,68 L39,82 M39,68 L25,82 M25,82 L39,68"/>
+
+    <!-- Rain drop -->
+    <path
+        android:fillColor="#3C8DDE"
+        android:pathData="M64,86 C59,81 58,77 58,74 C58,70 61,66 64,63 C67,67 70,71 70,75 C70,79 68,83 64,86 Z"/>
+</vector>
