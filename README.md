@@ -11,7 +11,6 @@ Current Weather	3-Day Forecast	Locations
 
 <img width="381" height="898" alt="image" src="https://github.com/user-attachments/assets/6590d9b1-dc74-47dd-9eb8-dd8e768d1d6a" />
 
-Assignment requirements
 #	Requirement	Implementation
 1	Live weather API	Retrofit/Gson integration with WeatherAPI.com.
 2	Current conditions	Condition icon and description, temperature, feels-like temperature, wind direction/speed, humidity, precipitation chance and current precipitation amount.
