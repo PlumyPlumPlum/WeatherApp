@@ -9,6 +9,8 @@ Current Weather	3-Day Forecast	Locations
 
 <img width="410" height="903" alt="image" src="https://github.com/user-attachments/assets/d7e96b1e-c2f7-4641-ab91-0b803ead8ed3" />
 
+<img width="381" height="898" alt="image" src="https://github.com/user-attachments/assets/6590d9b1-dc74-47dd-9eb8-dd8e768d1d6a" />
+
 Assignment requirements
 #	Requirement	Implementation
 1	Live weather API	Retrofit/Gson integration with WeatherAPI.com.
